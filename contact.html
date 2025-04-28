@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Uttarakhand Travel and Tourism</title>
+  <style>
+    /* Theme Variables */
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --accent: #444444;
+      --transition: 0.3s;
+    }
+    html[data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #eaeaea;
+      --accent: #888888;
+    }
+
+    /* Global Reset & Typography */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    a:hover {
+      color: var(--text);
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: var(--bg);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: transform var(--transition);
+    }
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+    .icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent);
+      transition: fill var(--transition);
+    }
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="dark"] .icon-moon { display: none; }
+
+    /* Container */
+    .container {
+      padding: 4rem 5%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Contact Info */
+    .contact-info {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .contact-info h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .contact-info h5 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .contact-info p {
+      font-size: 1rem;
+      opacity: 0.85;
+      margin: 0.5rem 0;
+    }
+
+    /* Form Section */
+    .form-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      text-align: center;
+    }
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+    label {
+      font-size: 0.9rem;
+    }
+    input, select {
+      padding: 0.75rem;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 5px;
+      font-size: 1rem;
+      width: 100%;
+      transition: border-color var(--transition);
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; border: 2px solid var(--accent); border-radius: 25px; font-size: 0.9rem; cursor: pointer; transition: background var(--transition), color var(--transition), transform var(--transition); }
+    .btn:hover { background: var(--accent); color: var(--bg); transform: translateY(-2px); }
+    /* overlay full‑screen, centered popup */
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.popup {
+  background: var(--bg);
+  color: var(--text);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.popup p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.popup .btn {
+  border: 2px solid var(--accent);
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Uttarakhand Travel and Tourism</a>
+    <button class="theme-toggle" aria-label="Toggle Theme">
+      <!-- Moon icon for light mode -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-moon">
+        <path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 21a9 9 0 009-8.21z"/>
+      </svg>
+      <!-- Sun icon for dark mode -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class='icon icon-sun'><g data-name="light max">
+        <path d="M16 9a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm0 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM16 7a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1zM16 25a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1zM29 15h-3a1 1 0 0 0 0 2h3a1 1 0 0 0 0-2zM7 16a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h3a1 1 0 0 0 1-1zM23.07 9.93a1 1 0 0 0 .71-.29l2.12-2.13a1 1 0 1 0-1.41-1.41l-2.13 2.12a1 1 0 0 0 0 1.42 1 1 0 0 0 .71.29zM8.22 22.36 6.1 24.49a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .7-.29l2.13-2.12a1 1 0 0 0-1.42-1.42zM23.78 22.36a1 1 0 0 0-1.42 1.42l2.13 2.12a1 1 0 0 0 .7.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.41zM8.22 9.64a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.42L7.51 6.1A1 1 0 0 0 6.1 7.51z"/>
+        </g></svg>
+    </button>
+  </nav>
+
+  <div class="container">
+    <section class="contact-info">
+      <h2>Get in Touch</h2>
+      <h5>Personal contact helps in better consultation and recommendations. Also better discounts</h5>
+      <p>Phone: +91 9557766033, +91 8630330578</p>
+      <p>Email: uttarakhandtravelandtourism@gmail.com</p>
+    </section>
+
+    <section class="form-section">
+      <h3>Book Your Trip</h3>
+      <form autocomplete="off" method="post" name="google-sheet">
+        <label for="fullName">Full Name *</label>
+        <input type="text" id="fullName" name="fullName" required pattern="[A-Za-z ]+" title="Please use letters and spaces only." placeholder="Enter your full name">
+
+        <label for="numPeople">Number of People</label>
+        <input type="number" id="numPeople" name="numPeople" min="1" placeholder="1">
+
+        <label for="contactNumber">Contact Number *</label>
+        <input type="tel" id="contactNumber" name="contactNumber" required pattern="\d{10}" title="Enter a 10-digit phone number" placeholder="e.g. 1234567890">
+
+        <label for="purpose">I want to:</label>
+        <select id="purpose" name="purpose">
+          <option value="friends_family">Travel with friends/family</option>
+          <option value="event">Organise an event (wedding or corporate)</option>
+        </select>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email">
+
+        <button type="submit" class="btn">Submit</button>
+      </form>
+        <div id="thankyou-popup" class="popup-overlay">
+          <div class="popup">
+            <p>Thank you for trusting us! We will contact you soon for further enquiry.</p>
+            <button id="popup-close" class="btn">Close</button>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  <script>
+    (function() {
+      const html = document.documentElement;
+      const toggle = document.querySelector('.theme-toggle');
+      const ICON_MOON = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-moon">
+          <path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 21a9 9 0 009-8.21z"/>
+        </svg>`;
+      const ICON_SUN = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class='icon icon-sun'><g data-name="light max"><path d="M16 9a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm0 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM16 7a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1zM16 25a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1zM29 15h-3a1 1 0 0 0 0 2h3a1 1 0 0 0 0-2zM7 16a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h3a1 1 0 0 0 1-1zM23.07 9.93a1 1 0 0 0 .71-.29l2.12-2.13a1 1 0 1 0-1.41-1.41l-2.13 2.12a1 1 0 0 0 0 1.42 1 1 0 0 0 .71.29zM8.22 22.36 6.1 24.49a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .7-.29l2.13-2.12a1 1 0 0 0-1.42-1.42zM23.78 22.36a1 1 0 0 0-1.42 1.42l2.13 2.12a1 1 0 0 0 .7.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.41zM8.22 9.64a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.42L7.51 6.1A1 1 0 0 0 6.1 7.51z"/></g></svg>`;
+  
+      const stored = localStorage.getItem('theme');
+      const current = stored === 'dark' ? 'dark' : 'light';
+      html.setAttribute('data-theme', current);
+      toggle.innerHTML = current === 'light' ? ICON_MOON : ICON_SUN;
+
+      toggle.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        toggle.innerHTML = next === 'light' ? ICON_MOON : ICON_SUN;
+      });
+    })();
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', e => {
+      const form = e.target;
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+      }
+    });
+  </script>
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxKEWJWHO-ayUXccUQSRJYyfPXSq1iHjHQRRZ6_LRlnmsiZxDGCmNp7iA5Xo9nJNjollg/exec';
+    const form = document.forms['google-sheet'];
+    const popup = document.getElementById('thankyou-popup');
+    const closeBtn = document.getElementById('popup-close');
+    
+    form.addEventListener('submit', e => {
+      e.preventDefault();               
+      popup.style.display = 'flex';     
+    });
+    closeBtn.addEventListener('click', () => {
+      popup.style.display = 'none';
+      form.submit();                   
+    });
+    </script>
+</body>
+</html>

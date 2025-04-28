@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uttarakhand Travel and Tourism</title>
+  <style>
+    /* Theme Variables */
+    :root { --bg: #ffffff; --text: #1a1a1a; --accent: #444444; --transition: 0.3s; }
+    html[data-theme="dark"] { --bg: #1a1a1a; --text: #eaeaea; --accent: #888888; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: Arial, sans-serif; line-height: 1.6; transition: background var(--transition), color var(--transition); }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--text); }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      padding: 1rem 5%;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: auto;   
+      margin-right: 1.5rem;
+    }
+    .nav-links a {
+      font-size: 1rem;
+      padding: 0.5rem;
+      border-radius: 5px;
+      transition: background var(--transition), color var(--transition);
+    }
+    .nav-links a:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: transform var(--transition);
+    }
+    .theme-toggle:hover { transform: rotate(20deg); }
+    .icon { width: 24px; height: 24px; fill: var(--accent); transition: fill var(--transition); }
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="dark"] .icon-moon { display: none; }
+
+    /* Loading Screen */
+    #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+    .spinner { animation: rotate 2s linear infinite; width: 80px; height: 80px; }
+    .spinner .path { stroke: var(--accent); stroke-linecap: round; animation: dash 1.5s ease-in-out infinite; }
+    @keyframes rotate { 100% { transform: rotate(360deg); } }
+    @keyframes dash { 0% { stroke-dasharray: 1,150; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90,150; stroke-dashoffset: -35; } 100% { stroke-dasharray: 90,150; stroke-dashoffset: -124; } }
+
+    /* Hero Section */
+    .hero { position: relative; text-align: center; padding: 8rem 5%; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/himalayalandscape.jpg') center/cover no-repeat; color: #fff; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.85; }
+    .hero .btn { border-color: #fff; color: #fff; }
+    .hero .btn:hover { background: #fff; color: #000; }
+
+    /* Destinations Grid */
+    .destinations { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; padding: 4rem 5%; }
+    .destinations.active { display: grid; }
+    .card { background: var(--bg); border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; padding-bottom: 1rem; transition: transform var(--transition), box-shadow var(--transition); }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-content { padding: 1rem; }
+    .card-content h3 { margin-bottom: 0.5rem; color: var(--accent); }
+    .card-content p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem; }
+    .card .btn { margin-bottom: 1rem; }
+
+    /* Contact Section */
+    .contact-section { padding: 4rem 5%; text-align: center; }
+    .contact-section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+    .contact-section p { font-size: 1rem; opacity: 0.85; margin-bottom: 0.5rem; }
+
+    .about-us {padding: 4rem 5%; text-align: center;}
+    .about-us h2 { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; margin-top: 1rem; }
+    .about-us p {
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 900px;}
+    .about-us h4 { font-size: 1.25rem; color: var(--accent); margin-bottom: 1rem; }
+
+    .heading h2 {margin-top: 2rem; text-align: center; padding-top: 5rem; font-size: 2rem; color: var(--accent); margin-bottom: 1rem;}
+    footer { text-align: center; padding: 2rem 5%; font-size: 0.8rem; opacity: 0.6; }
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; border: 2px solid var(--accent); border-radius: 25px; font-size: 0.9rem; cursor: pointer; transition: background var(--transition), color var(--transition), transform var(--transition); }
+    .btn:hover { background: var(--accent); color: var(--bg); transform: translateY(-2px); }
+
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <svg class="spinner" viewBox="0 0 50 50">
+      <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+    </svg>
+  </div>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Uttarakhand Travel and Tourism</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Places</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <button class="theme-toggle" aria-label="Toggle Theme">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-moon"><path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 21a9 9 0 009-8.21z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class='icon icon-sun'><g data-name="light max"><path d="M16 9a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm0 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM16 7a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1zM16 25a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1zM29 15h-3a1 1 0 0 0 0 2h3a1 1 0 0 0 0-2zM7 16a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h3a1 1 0 0 0 1-1zM23.07 9.93a1 1 0 0 0 .71-.29l2.12-2.13a1 1 0 1 0-1.41-1.41l-2.13 2.12a1 1 0 0 0 0 1.42 1 1 0 0 0 .71.29zM8.22 22.36 6.1 24.49a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .7-.29l2.13-2.12a1 1 0 0 0-1.42-1.42zM23.78 22.36a1 1 0 0 0-1.42 1.42l2.13 2.12a1 1 0 0 0 .7.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.41zM8.22 9.64a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.42L7.51 6.1A1 1 0 0 0 6.1 7.51z"/></g></svg>`;
+    </button>
+  </nav>
+  <section class="hero">
+    <h1>Explore the nature of Uttarakhand</h1>
+    <p>Your dream journeys, presented in elegant grayscale. Discover destinations, plan adventures, and travel with style.</p>
+    <a href="explore.html" class="btn">Get Started</a>
+  </section>
+
+  <section class="heading" id="heading">
+    <h2>Trending Places in Uttarakhand</h2>
+  </section>
+
+  <section id="destinations" class="destinations">
+    <div class="card">
+      <img src="assets/dest1.jpg" alt="Destination 1">
+      <div class="card-content">
+        <h3>Jim Corbett</h3>
+        <p>Jim Corbett National Park, located in the Nainital district of Uttarakhand, is India's oldest national park, established in 1936. Renamed in honor of the hunter-turned-conservationist Jim Corbett, the park is renowned for its rich biodiversity and as the launch site of Project Tiger in 1973. ​
+          Spanning over 520 square kilometers, the park features diverse landscapes, including hills, riverine belts, marshy depressions, and grasslands. It is home to a variety of wildlife, such as the Bengal tiger, Asian elephant, leopards, and over 580 species of birds. ​
+          Activities include jeep safaris, elephant rides, and bird watching. Nearby attractions like Corbett Falls and Garjiya Devi Temple add to the appeal.</p>
+      </div>
+      <a href="contact.html" class="btn">Book Now</a>
+    </div>
+
+
+    <div class="card">
+      <img src="assets/dest2.jpg" alt="Destination 2">
+      <div class="card-content">
+        <h3>Mussorrie</h3>
+        <p>Perched at 2,000 meters (6,600 feet) in Uttarakhand, Mussoorie is a charming hill station renowned for its colonial architecture, panoramic Himalayan views, and vibrant cultural heritage. 
+          Located approximately 35 km from Dehradun, it offers attractions like the bustling Mall Road, serene Camel’s Back Road, and the scenic Kempty Falls. 
+          Whether you're seeking adventure, relaxation, or a romantic getaway, Mussoorie provides a perfect retreat amidst nature's beauty.</p>
+      </div>
+      <a href="contact.html" class="btn">Book Now</a>
+    </div>
+
+
+    <div class="card">
+      <img src="assets/dest3.jpg" alt="Destination 3">
+      <div class="card-content">
+        <h3>Kaichidham</h3>
+        <p>Nestled in the serene Kumaon region of Uttarakhand, approximately 17 km from Nainital, Kaichi Dham is a revered ashram and Hanuman temple established in 1964 by the mystic saint Neem Karoli Baba. The name “Kaichi” translates to “scissors,” 
+          inspired by the unique confluence of two hills that form a scissor-like shape around the temple. Set at an altitude of 1,400 meters above sea level, the ashram is surrounded by lush forests and the tranquil Kosi River, offering a peaceful environment ideal for meditation and spiritual reflection.
+          Kaichi Dham has attracted numerous visitors, including notable figures such as Steve Jobs and Mark Zuckerberg, who sought spiritual solace at this sacred site.</p>
+      </div>
+      <a href="contact.html" class="btn">Book Now</a>
+    </div>
+  </section>
+  <section class="about-us" id="about">
+    <h2>About Us</h2>
+    <p>Uttarakhand Travel and Tourism is a travel agency website which makes a different approach while dealing with customers. We first consult the tourists and understand their needs like their priorities (food, view, places to explore nearby and so on).
+    Then we suggest the best hotels with best prices. So that, the customer gets full satisfaction. We offer hotel prices lower than the market rates.</p>
+    <p>Customer gets two major benifits:- </p>
+    <p>1. Customer gets hotels at better rates which makes it convinient for them</p>
+    <p>2. By consultation, customer is well known aware of the area and can use its time effectively now. (locals have better idea of the places and better suggestions which helps the tourists who are unaware of the new place)</p>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <h2>Contact Us</h2>
+    <p>Phone: +91 9557766033, +91 8630330578</p>
+    <p>Email: uttarakhandtravelandtourism@gmail.com</p>
+  </section>
+
+  <footer>
+    &copy; 2025 Uttarakhand Travel and Tourism. All rights reserved.
+  </footer>
+
+  <script>
+    (function() {
+      const loader = document.getElementById('loading-screen');
+      function hideLoader() {
+        if (!loader) return;
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+      }
+      if (document.readyState === 'complete') hideLoader();
+      window.addEventListener('load', hideLoader);
+      window.addEventListener('pageshow', hideLoader);
+
+      const html = document.documentElement;
+      const toggle = document.querySelector('.theme-toggle');
+      const ICON_MOON = document.querySelector('.icon-moon').outerHTML;
+      const ICON_SUN = document.querySelector('.icon-sun').outerHTML;
+      const stored = localStorage.getItem('theme');
+      const current = stored === 'dark' ? 'dark' : 'light';
+      html.setAttribute('data-theme', current);
+      toggle.innerHTML = current === 'light' ? ICON_MOON : ICON_SUN;
+      toggle.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        toggle.innerHTML = next === 'light' ? ICON_MOON : ICON_SUN;
+      });
+    })();
+  </script>
+</body>
+</html>

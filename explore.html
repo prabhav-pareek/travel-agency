@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Page</title>
+  <style>
+    /* Shared theme variables */
+    :root { --bg: #ffffff; --text: #1a1a1a; --accent: #444444; --transition: 0.3s; }
+    html[data-theme="dark"] { --bg: #1a1a1a; --text: #eaeaea; --accent: #888888; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: Arial, sans-serif; line-height: 1.6; transition: background var(--transition), color var(--transition); }
+    a, .btn { cursor: pointer; }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--text); }
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; border: 2px solid var(--accent); border-radius: 25px; font-size: 0.9rem; transition: background var(--transition), color var(--transition), transform var(--transition); }
+    .btn:hover { background: var(--accent); color: var(--bg); transform: translateY(-2px); }
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: var(--bg); box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+    .theme-toggle { background: none; border: none; cursor: pointer; display: flex; align-items: center; transition: transform var(--transition); }
+    .theme-toggle:hover { transform: rotate(20deg); }
+    .icon { width: 24px; height: 24px; fill: var(--accent); }
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="dark"] .icon-moon { display: none; }
+
+    /* Region Cards */
+    .regions { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2rem; padding: 4rem 5%; }
+    .region-card { position: relative; overflow: hidden; border-radius: 10px; }
+    .region-card img { width: 100%; height: 200px; object-fit: cover; filter: brightness(0.7); transition: filter var(--transition); }
+    .region-card:hover img { filter: brightness(0.9); }
+    .region-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; color: #fff; }
+    .view-btn { display: inline-block; padding: 0.75rem 1.5rem; border: 2px solid var(--accent); border-radius: 25px; font-size: 0.9rem; cursor: pointer; transition: background var(--transition), color var(--transition), transform var(--transition); }
+
+    /* Destinations lists (hidden initially) */
+    .destinations { display: none; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2rem; padding: 4rem 5%; }
+    .destinations.active { display: grid; }
+    .destinations h2 { grid-column: 1/-1; text-align: center; margin-bottom: 1rem; color: var(--accent); }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .card { background: var(--bg); border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-content { padding: 1rem; }
+    .card-content h4 { margin-bottom: 0.5rem; color: var(--accent); }
+    .card-content p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem; }
+    .card .btn { margin-bottom: 1rem; }
+
+    /* Contact & Footer */
+    .contact-section { padding: 4rem 5%; text-align: center; }
+    .contact-section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+    .contact-section p { margin-bottom: 0.5rem; opacity: 0.85; }
+    footer { text-align: center; padding: 2rem 5%; font-size: 0.8rem; opacity: 0.6; }
+
+    .back-btn {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+        .back-btn:hover {
+            background: var(--hover-color);
+            transform: translateX(-3px);
+        }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Uttarakhand Travel and Tourism</a>
+    <button class="theme-toggle" aria-label="Toggle Theme">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-moon"><path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 21a9 9 0 009-8.21z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class='icon icon-sun'><g data-name="light max"><path d="M16 9a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm0 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM16 7a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1zM16 25a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1zM29 15h-3a1 1 0 0 0 0 2h3a1 1 0 0 0 0-2zM7 16a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h3a1 1 0 0 0 1-1zM23.07 9.93a1 1 0 0 0 .71-.29l2.12-2.13a1 1 0 1 0-1.41-1.41l-2.13 2.12a1 1 0 0 0 0 1.42 1 1 0 0 0 .71.29zM8.22 22.36 6.1 24.49a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .7-.29l2.13-2.12a1 1 0 0 0-1.42-1.42zM23.78 22.36a1 1 0 0 0-1.42 1.42l2.13 2.12a1 1 0 0 0 .7.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.41zM8.22 9.64a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.42L7.51 6.1A1 1 0 0 0 6.1 7.51z"/></g></svg>
+    </button>
+  </nav>
+
+  <!-- Region Selection -->
+  <section id="regions" class="regions">
+    <div class="region-card">
+      <img src="assets/garhwal-region.webp" alt="Explore Garhwal">
+      <div class="region-content">
+        <h3>Explore Garhwal</h3>
+        <a data-target="garhwal" class="btn view-btn">View</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <img src="assets/kumaon-region.jpg" alt="Explore Kumaon">
+      <div class="region-content">
+        <h3>Explore Kumaon</h3>
+        <a data-target="kumaon" class="btn view-btn">View</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Garhwal Destinations -->
+  <section id="garhwal" class="destinations">
+    <h2>Garhwal Destinations</h2>
+    <div class="card">
+      <img src="assets/rishikesh2.jpg" alt="Rishikesh">
+      <div class="card-content">
+        <h4>Rishikesh</h4>
+        <p>Rishikesh is a serene town nestled in the foothills of the Himalayas, renowned as the "Yoga Capital of the World." Situated along the banks of the sacred Ganges River, it offers a unique blend of spiritual heritage and adventure activities. Visitors can explore ancient temples, participate in yoga and meditation sessions at various ashrams, or experience the thrill of white-water rafting and trekking in the surrounding hills. 
+          The town's tranquil atmosphere and scenic beauty make it an ideal destination for those seeking both peace and excitement.</p>
+        <a href="contact.html#contact" class="btn">Book Now</a>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <img src="assets/kanatal.jpg" alt="Kanatal">
+      <div class="card-content">
+        <h4>Kanatal</h4>
+        <p>Kanatal is a serene hill station offering panoramic Himalayan views, apple orchards, and lush forests. Located between Mussoorie (38 km) and Chamba (18 km), 
+          it's an ideal destination for nature lovers, adventure enthusiasts, and those seeking tranquility. Visitors can enjoy activities like camping, trekking, and exploring nearby attractions such as the Surkanda Devi Temple and Tehri Lake. 
+          Kanatal's peaceful ambiance makes it a perfect weekend getaway from the hustle and bustle of city life.</p>
+        <a href="contact.html#contact" class="btn">Book Now</a>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <img src="assets/dest2.jpg" alt="Mussoorie">
+      <div class="card-content">
+        <h4>Mussoorie</h4>
+        <p>Perched at 2,000 meters (6,600 feet) in Uttarakhand, Mussoorie is a charming hill station renowned for its colonial architecture, panoramic Himalayan views, and vibrant cultural heritage. 
+          Located approximately 35 km from Dehradun, it offers attractions like the bustling Mall Road, serene Camel’s Back Road, and the scenic Kempty Falls. 
+          Whether you're seeking adventure, relaxation, or a romantic getaway, Mussoorie provides a perfect retreat amidst nature's beauty.</p>
+        <a href="contact.html#contact" class="btn">Book Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kumaon Destinations -->
+  <section id="kumaon" class="destinations">
+    <h2>Kumaon Destinations</h2>
+    <div class="card"><img src="assets/pangot.jpg" alt="Pangot">
+      <div class="card-content"><h4>Pangot</h4><p>Pangot is a peaceful village near Nainital, Uttarakhand, known for its rich birdlife and natural beauty. 
+        Home to over 580 bird species, it's a paradise for birdwatchers and nature lovers. Surrounded by forests of oak, pine, and rhododendron, Pangot offers scenic trekking trails, including routes to Naina Peak and Corbett National Park. 
+        Adventure activities like zip-lining and Burma Bridge add excitement for thrill-seekers. 
+        With its tranquil environment and stunning Himalayan views, Pangot provides a perfect escape from city life.</p>
+        <a href="contact.html#contact" class="btn">Book Now</a></div></div>
+
+
+    <div class="card"><img src="assets/corbett.jpg" alt="Jim Corbett">
+      <div class="card-content"><h4>Jim Corbett</h4><p>Jim Corbett National Park, located in the Nainital district of Uttarakhand, is India's oldest national park, established in 1936. Renamed in honor of the hunter-turned-conservationist Jim Corbett, the park is renowned for its rich biodiversity and as the launch site of Project Tiger in 1973. ​
+        Spanning over 520 square kilometers, the park features diverse landscapes, including hills, riverine belts, marshy depressions, and grasslands. It is home to a variety of wildlife, such as the Bengal tiger, Asian elephant, leopards, and over 580 species of birds. ​
+        Activities include jeep safaris, elephant rides, and bird watching. Nearby attractions like Corbett Falls and Garjiya Devi Temple add to the appeal. ​
+        </p>
+        <a href="contact.html#contact" class="btn">Book Now</a></div></div>
+
+
+    <div class="card"><img src="assets/kasar-devi.jpg" alt="Kasar Devi">
+      <div class="card-content"><h4>Kasar Devi</h4><p>Kasar Devi is a tranquil village near Almora, Uttarakhand, renowned for its ancient temple dedicated to Goddess Kasar Devi, dating back to the 2nd century CE. 
+        Perched at an altitude of approximately 2,100 meters, the village offers breathtaking views of the Himalayas and the surrounding valleys. The area is also known for its unique geomagnetic field, attracting spiritual seekers and meditators. 
+        Notable visitors include Swami Vivekananda, who meditated here in the 1890s, and several Western thinkers and artists during the 20th century. Kasar Devi provides a perfect retreat for those seeking peace, nature walks, and spiritual solace.</p>
+        <a href="contact.html#contact" class="btn">Book Now</a></div></div>
+
+
+    <div class="card"><img src="assets/mukteshwar.jpg" alt="Mukteshwar">
+      <div class="card-content"><h4>Mukteshwar</h4><p>Mukteshwar is a serene hill station in Uttarakhand's Kumaon region, situated at an altitude of approximately 2,286 meters. Known for its panoramic views of the Himalayan ranges, 
+        including peaks like Nanda Devi, it offers a peaceful retreat amidst nature. ​The town is home to the ancient Mukteshwar Dham, a 350-year-old temple dedicated to Lord Shiva, 
+        perched atop a hill. Nearby, Chauli Ki Jali, a cliffside spot, attracts adventure enthusiasts for rock climbing and rappelling, and offers breathtaking views of the valleys below.</p>
+        <a href="contact.html#contact" class="btn">Book Now</a></div></div>
+
+
+    <div class="card"><img src="assets/bhimtal.jpg" alt="Bhimtal">
+      <div class="card-content"><h4>Bhimtal</h4><p>Bhimtal is a serene hill town located in the Nainital district of Uttarakhand, named after Bhima from the Mahabharata. Situated at an altitude of 1,370 meters, 
+        it's renowned for the picturesque Bhimtal Lake, the largest in the Kumaon region, featuring an island with an aquarium at its center.​Visitors can enjoy boating on the tranquil lake, explore the historic Bhimeshwar Mahadev Temple dating back to the 17th century ​, and visit nearby attractions like Victoria Dam, Hidimba Parvat, and Nal Damyanti Tal . The town's lush surroundings and pleasant climate make it an ideal destination for nature lovers and those seeking a peaceful retreat.​</p>
+        <a href="contact.html#contact" class="btn">Book Now</a></div></div>
+
+
+    <div class="card"><img src="assets/dest3.jpg" alt="Kaichidham">
+      <div class="card-content"><h4>Kaichidham</h4><p>Nestled in the serene Kumaon region of Uttarakhand, approximately 17 km from Nainital, Kainchi Dham is a revered ashram and Hanuman temple established in 1964 by the mystic saint Neem Karoli Baba. The name “Kainchi” translates to “scissors,” 
+        inspired by the unique confluence of two hills that form a scissor-like shape around the temple. Set at an altitude of 1,400 meters above sea level, the ashram is surrounded by lush forests and the tranquil Kosi River, offering a peaceful environment ideal for meditation and spiritual reflection.
+        Kainchi Dham has attracted numerous visitors, including notable figures such as Steve Jobs and Mark Zuckerberg, who sought spiritual solace at this sacred site.​</p>
+        <a href="contact.html#contact" class="btn">Book Now</a></div></div>
+
+
+    <div class="card"><img src="assets/ranikhet.jpg" alt="Ranikhet">
+      <div class="card-content"><h4>Ranikhet</h4><p>Ranikhet is a beautiful hill station in Uttarakhand, known for its peaceful surroundings and stunning
+       mountain views. Visitors of all ages can enjoy the fresh air, visit famous places like Jhula Devi Temple and Chaubatia Gardens, or relax at the scenic golf course. Whether you want a quiet break,
+        a family holiday, or a nature walk, Ranikhet is the perfect place to unwind and enjoy the beauty of the hills.
+      </p><a href="contact.html#contact" class="btn">Book Now</a></div></div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <p>Phone: +91 9557766033, +91 8630330578</p>
+    <p>Email: uttarakhandtravelandtourism@gmail.com</p>
+  </section>
+
+  <footer>&copy; 2025 Uttarakhand Tour and Tourism. All rights reserved.</footer>
+
+  <script>
+    (function() {
+      const html = document.documentElement;
+      const toggle = document.querySelector('.theme-toggle');
+      const ICON_MOON = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-moon">
+          <path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 21a9 9 0 009-8.21z"/>
+        </svg>`;
+      const ICON_SUN = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class='icon icon-sun'><g data-name="light max"><path d="M16 9a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm0 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM16 7a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1zM16 25a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1zM29 15h-3a1 1 0 0 0 0 2h3a1 1 0 0 0 0-2zM7 16a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h3a1 1 0 0 0 1-1zM23.07 9.93a1 1 0 0 0 .71-.29l2.12-2.13a1 1 0 1 0-1.41-1.41l-2.13 2.12a1 1 0 0 0 0 1.42 1 1 0 0 0 .71.29zM8.22 22.36 6.1 24.49a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .7-.29l2.13-2.12a1 1 0 0 0-1.42-1.42zM23.78 22.36a1 1 0 0 0-1.42 1.42l2.13 2.12a1 1 0 0 0 .7.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.41zM8.22 9.64a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29 1 1 0 0 0 0-1.42L7.51 6.1A1 1 0 0 0 6.1 7.51z"/></g></svg>`;
+  
+      // 1️⃣ On load: read stored theme (or default to light)
+      const stored = localStorage.getItem('theme');
+      const current = stored === 'dark' ? 'dark' : 'light';
+      html.setAttribute('data-theme', current);
+      // set the proper icon
+      toggle.innerHTML = current === 'light' ? ICON_MOON : ICON_SUN;
+  
+      // 2️⃣ On toggle click: flip, re‑store, swap icon
+      toggle.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        toggle.innerHTML = next === 'light' ? ICON_MOON : ICON_SUN;
+      });
+    })();
+  
+    // Section toggle
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const targetId = btn.dataset.target;
+        document.querySelectorAll('.destinations').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+        document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
