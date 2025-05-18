@@ -162,6 +162,39 @@
 .popup .btn {
   border: 2px solid var(--accent);
 }
+
+.radio-group {
+  border: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.radio-group legend {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.radio-group label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1.5rem; /* space between options */
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 0.5rem; /* space between bullet and text */
+}
+/* set up the fade transition on the whole page */
+body {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+/* when this class is present, the page will fade out */
+body.fade-out {
+  opacity: 0;
+}
+
   </style>
 </head>
 <body>
@@ -197,13 +230,25 @@
         <input type="number" id="numPeople" name="numPeople" min="1" placeholder="1">
 
         <label for="contactNumber">Contact Number *</label>
-        <input type="tel" id="contactNumber" name="contactNumber" required pattern="\d{10}" title="Enter a 10-digit phone number" placeholder="e.g. 1234567890">
+        <input type="tel" id="contactNumber" name="contactNumber" required pattern="\d{10}" title="Enter a 10-digit phone number" placeholder="e.g. 9557766033">
 
         <label for="purpose">I want to:</label>
         <select id="purpose" name="purpose">
           <option value="friends_family">Travel with friends/family</option>
           <option value="event">Organise an event (wedding or corporate)</option>
         </select>
+        
+        <fieldset class="radio-group">
+          <legend>Will you need travel services?</legend>
+          <label>
+            <input type="radio" name="needServices" value="Yes" required>
+            Yes
+          </label>
+          <label>
+            <input type="radio" name="needServices" value="No">
+            No
+          </label>
+        </fieldset>
 
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Enter your email">
@@ -267,5 +312,27 @@
       form.submit();                   
     });
     </script>
+
+    <script>
+  // 1️⃣ Fade back in on load (in case the browser restored from cache)
+  window.addEventListener('pageshow', () => {
+    document.body.classList.remove('fade-out');
+  });
+
+  // 2️⃣ Intercept internal link clicks to fade out first
+  document.querySelectorAll('a[href]').forEach(link => {
+    // only apply to same‑site links
+    if (link.hostname === location.hostname) {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const url = link.href;
+        document.body.classList.add('fade-out');
+        // wait for the CSS transition, then navigate
+        setTimeout(() => location.href = url, 500);
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
