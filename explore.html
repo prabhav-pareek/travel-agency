@@ -63,6 +63,18 @@
             background: var(--hover-color);
             transform: translateX(-3px);
         }
+    
+    /* set up the fade transition on the whole page */
+body {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+/* when this class is present, the page will fade out */
+body.fade-out {
+  opacity: 0;
+}
+
   </style>
 </head>
 <body>
@@ -227,6 +239,29 @@
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
       });
     });
+
+    
   </script>
+  <script>
+  // 1️⃣ Fade back in on load (in case the browser restored from cache)
+  window.addEventListener('pageshow', () => {
+    document.body.classList.remove('fade-out');
+  });
+
+  // 2️⃣ Intercept internal link clicks to fade out first
+  document.querySelectorAll('a[href]').forEach(link => {
+    // only apply to same‑site links
+    if (link.hostname === location.hostname) {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const url = link.href;
+        document.body.classList.add('fade-out');
+        // wait for the CSS transition, then navigate
+        setTimeout(() => location.href = url, 500);
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
