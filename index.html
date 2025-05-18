@@ -205,7 +205,7 @@
         setTimeout(() => loader.remove(), 500);
       }
       if (document.readyState === 'complete') hideLoader();
-      window.addEventListener('load', hideLoader);
+      document.addEventListener('DOMContentLoaded', hideLoader);
       window.addEventListener('pageshow', hideLoader);
 
       const html = document.documentElement;
